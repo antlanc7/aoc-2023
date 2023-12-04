@@ -19,7 +19,6 @@ pub fn main() !void {
         try list.append(line);
     }
     const lines = try list.toOwnedSlice();
-    list.deinit();
     var sum: u32 = 0;
     for (lines, 0..) |line, i| {
         var tokenizer = std.mem.tokenizeScalar(u8, line, '.');
@@ -74,4 +73,5 @@ pub fn main() !void {
             }
         }
     }
+    std.debug.print("sum: {}\n", .{sum});
 }
