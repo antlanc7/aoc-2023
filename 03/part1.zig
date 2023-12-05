@@ -2,13 +2,6 @@ const std = @import("std");
 const test_input: []const u8 = @embedFile("test1.txt");
 const input: []const u8 = @embedFile("input.txt");
 
-fn isDigit(char: u8) bool {
-    return switch (char) {
-        '0'...'9' => true,
-        else => false,
-    };
-}
-
 pub fn main() !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
     defer arena.deinit();
@@ -28,7 +21,7 @@ pub fn main() !void {
                 '0'...'9' => {
                     const len_of_num: usize = end_of_num_search: {
                         for (token, 0..) |digit, index| {
-                            if (!isDigit(digit)) {
+                            if (!std.ascii.isDigit(digit)) {
                                 break :end_of_num_search index;
                             }
                         }
@@ -47,14 +40,14 @@ pub fn main() !void {
                         const capped_token_end = if (token_end == line.len) token_end else token_end + 1;
                         if (i > 0) {
                             for (lines[i - 1][capped_token_start..capped_token_end]) |char| {
-                                if (!isDigit(char) and char != '.') {
+                                if (!std.ascii.isDigit(char) and char != '.') {
                                     break :search_other_lines true;
                                 }
                             }
                         }
                         if (i < lines.len - 1) {
                             for (lines[i + 1][capped_token_start..capped_token_end]) |char| {
-                                if (!isDigit(char) and char != '.') {
+                                if (!std.ascii.isDigit(char) and char != '.') {
                                     break :search_other_lines true;
                                 }
                             }

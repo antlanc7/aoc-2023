@@ -2,13 +2,6 @@ const std = @import("std");
 const test_input: []const u8 = @embedFile("test1.txt");
 const input: []const u8 = @embedFile("input.txt");
 
-fn isDigit(char: u8) bool {
-    return switch (char) {
-        '0'...'9' => true,
-        else => false,
-    };
-}
-
 const WholeNumber = struct {
     start: usize,
     end: usize,
@@ -16,17 +9,17 @@ const WholeNumber = struct {
 };
 
 fn findWholeNumber(buf: []const u8, index: usize) ?WholeNumber {
-    if (!isDigit(buf[index])) {
+    if (!std.ascii.isDigit(buf[index])) {
         return null;
     }
     var start = index;
     var end = index;
 
-    while (start > 0 and isDigit(buf[start - 1])) {
+    while (start > 0 and std.ascii.isDigit(buf[start - 1])) {
         start -= 1;
     }
 
-    while (end < (buf.len - 1) and isDigit(buf[end + 1])) {
+    while (end < (buf.len - 1) and std.ascii.isDigit(buf[end + 1])) {
         end += 1;
     }
 
